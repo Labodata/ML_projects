@@ -1,0 +1,37 @@
+# Nous allons faire une régression linéaire qui a pour but de prédire le salaire des travailleurs en fonction de leurs années d'expérience.  
+
+#Commençons par importer quelques librairies
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+
+#Importons le dataset
+Salary_Data = pd.read_csv("Salary_Data.csv")
+
+#Définissons les matrices
+x = Salary_Data.iloc[:, :-1].values
+y = Salary_Data.iloc[:, -1].values
+
+#Divisons le dataset entre le Training set et le Test set
+from sklearn.model_selection import train_test_split
+xtrain, xtest, ytrain, ytest = train_test_split(x, y, test_size = 1.0/3, random_state = 0)
+
+#Construisons du modèle
+from sklearn.linear_model import LinearRegression
+regressor = LinearRegression()
+regressor.fit(xtrain, ytrain)
+
+#Définissons ypred afin de faire des prédictions
+ypred = regressor.predict(xtest)
+
+#Définissons le salaire pour 15 années d'expérience
+regressor.predict(15)
+array([167005.32889087])
+
+#Visualisons les résultats
+plt.scatter(xtest, ytest, color = 'red')
+plt.plot(xtrain, regressor.predict(xtrain), color = 'blue')
+plt.title('Salary vs YearsExperience')
+plt.xlabel('YearsExperience')
+plt.ylabel('Salary')
+plt.show()
