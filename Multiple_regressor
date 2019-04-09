@@ -1,0 +1,39 @@
+#Dans ce dataset, l'idée est de prévoir les profits de startups à partir des dépenses en R&D, des dépenses en administration, des dépenses en marketing et de la situation géographique
+
+#Importons quelques librairies
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+
+#Importons le dataset
+Startup_Data = pd.read_csv("50_Startups.csv")
+x = Startup_Data.iloc[:, :-1].values
+y = Startup_Data.iloc[:, -1].values
+
+# Gérons les variables catégoriques 
+from sklearn.preprocessing import LabelEncoder, OneHotEncoder
+labelencoder_x = LabelEncoder()
+x[:, 3] = labelencoder_x.fit_transform(x[:, 3])
+onehotencoder = OneHotEncoder(categorical_features = [3])
+x = onehotencoder.fit_transform(x).toarray()
+
+#Pour éviter le problème de la multi-colinarité, nous allons supprimer une Dummy variable
+x = x[:, 1:]
+
+#Divisons le dataset entre le Training set et le Test set
+from sklearn.model_selection import train_test_split
+xtrain, xtest, ytrain, ytest = train_test_split(x, y, test_size = 0.2, random_state = 0)
+
+#Construisons le modèle
+from sklearn.linear_model import LinearRegression
+regressor = LinearRegression()
+regressor.fit(xtrain, ytrain)
+
+#Faisons des prédictions
+ypred = regressor.predict(xtest)
+
+#Première prédiction
+regressor.predict(np.array([[1, 0, 130000, 140000, 300000]])) = array([157732.46992719])
+
+#Deuxième prédiction
+regressor.predict(np.array([[0, 1, 130000, 140000, 300000]])) = array([159391.12313976])
