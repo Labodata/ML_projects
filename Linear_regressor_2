@@ -1,0 +1,46 @@
+#Nous allons travailler sur le même dataset de la détermination des salaires en se basant sur les années d'expérience des salariés
+
+ #Importons quelques librairies
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+
+#Importons le dataset
+Salary_Data = pd.read_csv('Salary_Data.csv')
+
+#Visualisons les données
+Salary_Data
+
+#Première visualisation sur un graphe 
+plt.plot(Salary_Data['YearsExperience'], Salary_Data['Salary'], 'ro', markersize = 2)
+
+#Définissons les matrices
+x = np.matrix([np.ones(Salary_Data.shape[0]), Salary_Data['YearsExperience']]).T
+y = np.matrix(Salary_Data['Salary']).T
+
+#Première méthode de construction du modèle. Nous allons utiliser la méthode THETA
+theta = np.linalg.inv(x.T.dot(x)).dot(x.T).dot(y)
+
+#On obtient la matrice THETA suivante
+matrix([[25792.20019867],
+        [ 9449.96232146]])
+
+#Pour THETA indice 0
+theta.item(0) = 25792.200198668717
+
+#Pour THETA indice 1
+theta.item(1) = 9449.96232145508
+
+#Prenons quelques exemples
+#Pour 5 années d'expérience, nous avons :
+theta.item(0) + 5 * theta.item(1) = 73042.01180594412
+
+#Pour 10 années d'expérience, nous avons :
+theta.item(0) + 10 * theta.item(1) = 120291.8234132195
+
+#Débutons la visualisation des résultats sur un graphe
+plt.xlabel('YearsExperience')
+plt.ylabel('Salary')
+plt.plot(Salary_Data['YearsExperience'], Salary_Data['Salary'], 'ro', markersize = 4)
+plt.plot([0, 50], [theta.item(0), theta.item(0) + 50 * theta.item(1)], linestyle='--', c='#000000')
+plt.show()
