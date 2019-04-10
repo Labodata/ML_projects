@@ -1,11 +1,19 @@
-# K-Means
+# Notre travail ici sera d'identifier des groupes d'observations similaires qu'on appelle des clusters. Ces derniers seront identifiés à partir des variables indépendantes que contient notre dataset.
+
+#Pour ce faire, nous allons utiliser le modèle K-Means. 
+
+#Objectif: trouver des segments de clients, identifier des clusters
+
+#Nous allons utiliser K-Means pour résoudre ce nouveau problème business: Identifier des clusters de clients afin de targeter les groupes de clients les plus intéressants pour le centre commercial
+
+# Problème business: Ce dataset recueille les données de clients d'un centre commercial (custom-id, genre, âge des clients, leurs salaires annuels et le spendind score). On va donc essayer d'identifier des clusters de clients pour essayer de comprendre qui sont nos clients, est-ce qu'ils se caractérisés en certains groupes?  
 
 # Importons les librairies
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# Importer le dataset
+# Importons le dataset
 Mall_Customers_Data = pd.read_csv('Mall_Customers.csv')
 
 #Visualisons les données
